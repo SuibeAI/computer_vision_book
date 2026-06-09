@@ -9,6 +9,7 @@ set -e  # 任意命令失败时立即退出
 DOWNLOAD_URL="https://datasets.simula.no/downloads/kvasir-seg.zip"
 SAVE_DIR="$(dirname "$0")/data"
 ZIP_FILE="$SAVE_DIR/kvasir-seg.zip"
+EXTRACTED_DIR="$SAVE_DIR/Kvasir-SEG"
 # ────────────────────────────────────────────────────────────────────
 
 # 创建数据目录（若不存在）
@@ -24,17 +25,21 @@ else
 fi
 
 # 若已解压则跳过解压
-if [ -d "$SAVE_DIR/kvasir-seg" ]; then
-    echo "[已跳过] 数据集目录已存在: $SAVE_DIR/kvasir-seg"
+if [ -d "$EXTRACTED_DIR" ]; then
+    echo "[已跳过] 数据集目录已存在: $EXTRACTED_DIR"
 else
     echo "[解压中] $ZIP_FILE → $SAVE_DIR"
     unzip -q "$ZIP_FILE" -d "$SAVE_DIR"
-    echo "[完成] 数据集路径: $SAVE_DIR/kvasir-seg"
+    if [ ! -d "$EXTRACTED_DIR" ]; then
+        echo "[错误] 解压完成，但未找到数据集目录。"
+        exit 1
+    fi
+    echo "[完成] 数据集路径: $EXTRACTED_DIR"
 fi
 
 # 打印目录结构摘要
 echo ""
 echo "数据集目录结构:"
-echo "  $SAVE_DIR/kvasir-seg/"
+echo "  $EXTRACTED_DIR/"
 echo "  ├── images/   (1000 张 JPEG 图像)"
 echo "  └── masks/    (1000 张对应分割掩码)"
