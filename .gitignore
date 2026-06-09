@@ -47,6 +47,10 @@ Thumbs.db
 
 # generated datasets
 books/annotated-vit/data/
+books/annotated-unet/data/
+
+# generated training outputs
+books/annotated-unet/outputs/
 
 # reference resources
 papers/
